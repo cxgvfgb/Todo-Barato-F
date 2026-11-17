@@ -18,7 +18,25 @@ const MarcaController = {
             const mensajeBackend = err.response?.data?.message;
             throw new Error(mensajeBackend || "No se pudo crear la marca");
         }
-        
+    },
+    async actualizarMarca(id, { nombre, estado = true }) {
+        const marca = new Marca({ idmarca: id, nombre, estado });
+        if (!marca.isValid()) {
+            throw new Error("El nombre de la marca es obligatorio y debe tener máximo 200 caracteres");
+        }
+        try {
+            const { data } = await MarcaService.actualizar(id, marca.toRequestPayload());
+            return data ? Marca.fromResponse(data) : marca;
+        } catch (err) {
+            throw new Error(err.response?.data?.message || "No se pudo actualizar la marca");
+        }
+    },
+    async eliminarMarca(id) {
+        try {
+            await MarcaService.eliminar(id);
+        } catch (err) {
+            throw new Error(err.response?.data?.message || "No se pudo eliminar la marca");
+        }
     },
 
 };
