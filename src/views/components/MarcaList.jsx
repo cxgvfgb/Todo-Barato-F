@@ -1,5 +1,10 @@
 import DataTable from "react-data-table-component";
 
+const formatoNumero = (valor) => new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+}).format(Number(valor) || 0);
+
 const columns = [
     { name : "ID", selector: (row) => row.idmarca, sortable: true},
     { name : "Nombre", selector: (row) => row.nombre, sortable: true},
@@ -15,11 +20,9 @@ const columns = [
             </span>
         ),
     },
-    {
-        name: "Creada",
-        selector: (row) => row.created_at,
-        cell: (row) => (row.created_at ? new Date(row.created_at).toLocaleString() : "-"),
-    },
+    { name: "Precio", selector: (row) => Number(row.precio) || 0, sortable: true, cell: (row) => formatoNumero(row.precio) },
+    { name: "Cantidad", selector: (row) => Number(row.cantidad) || 0, sortable: true },
+    { name: "Total", selector: (row) => (Number(row.precio) || 0) * (Number(row.cantidad) || 0), sortable: true, cell: (row) => formatoNumero((Number(row.precio) || 0) * (Number(row.cantidad) || 0)) },
 ];
 
 function MarcaList({marcas, onEditar, onEliminar, loading}){

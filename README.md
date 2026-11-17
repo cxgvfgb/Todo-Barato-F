@@ -31,7 +31,7 @@ Abre la URL que Vite muestre en la terminal (normalmente `http://localhost:5173`
 Por defecto, el frontend usa `/api/v1` como base y el proxy de Vite lo envía al backend local. Para usar otra base URL, crea un archivo `.env.local` en la raíz:
 
 ```env
-VITE_API_BASE_URL=http://localhost:8081/api/v1
+VITE_API_BASE_URL=http://localhost:8080/api/v1
 ```
 
 Reinicia el servidor de desarrollo después de cambiar variables `VITE_*`. En una compilación de producción, configura `VITE_API_BASE_URL` con la URL accesible desde el navegador; el proxy de Vite solo se aplica durante desarrollo.
@@ -39,7 +39,8 @@ Reinicia el servidor de desarrollo después de cambiar variables `VITE_*`. En un
 ## Funcionalidad
 
 - Lista marcas mostrando ID, nombre, estado, fecha de creación y acciones.
-- Registra y edita marcas con un nombre obligatorio de hasta 200 caracteres.
+- Registra y edita marcas con nombre, precio y cantidad.
+- Calcula el total multiplicando precio por cantidad.
 - Elimina marcas después de pedir confirmación.
 - Muestra mensajes de carga y errores de consulta o modificación.
 
@@ -48,9 +49,11 @@ La API debe proporcionar estos endpoints bajo la base URL configurada:
 | Método | Ruta | Uso |
 | --- | --- | --- |
 | `GET` | `/marcas` | Obtener la lista de marcas. |
-| `POST` | `/marcas` | Crear una marca enviando nombre, estado, precio, cantidad y total. |
-| `PUT` | `/marcas/{idmarca}` | Actualizar nombre, estado, precio, cantidad y total. |
+| `POST` | `/marcas` | Crear una marca enviando `nombre`, `precio`, `cantidad`, `total` y `estado`, por ejemplo `{ "nombre": "Toyota", "precio": 150000, "cantidad": 3, "total": 450000, "estado": true }`. |
+| `PUT` | `/marcas/{idmarca}` | Actualizar los campos de la marca. |
 | `DELETE` | `/marcas/{idmarca}` | Eliminar una marca por su ID. |
+
+El backend debe aceptar y devolver `precio`, `cantidad` y `total` en cada marca. El total se calcula automáticamente en el frontend como `precio × cantidad`.
 
 ## Comandos
 
