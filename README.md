@@ -5,7 +5,7 @@ Aplicación web para consultar y registrar marcas. Está construida con React y 
 ## Requisitos
 
 - Node.js y npm.
-- API backend disponible. En desarrollo, Vite reenvía las peticiones `/api` a `http://localhost:8081`.
+- API backend disponible. En desarrollo, Vite reenvía las peticiones `/api` a `http://localhost:8080` (el puerto local predeterminado de Spring Boot).
 
 Si PowerShell no reconoce `npm`, prueba con la ruta completa de npm que está incluida en el entorno de desarrollo de JetBrains:
 
@@ -15,7 +15,7 @@ Si PowerShell no reconoce `npm`, prueba con la ruta completa de npm que está in
 
 Si esa ruta no existe en tu equipo, instala Node.js y reinicia la terminal para actualizar el `PATH`.
 
-Si la página muestra `No se pudo cargar la lista de marcas` o `No se pudo crear la marca`, comprueba que el backend esté iniciado y escuchando en el puerto `8081`. Puedes verificarlo abriendo `http://localhost:8081/api/v1/marcas`; el frontend por sí solo no guarda datos.
+Si la página muestra `No se pudo cargar la lista de marcas` o `No se pudo crear la marca`, comprueba que el backend esté iniciado y escuchando en el puerto `8080`. Puedes verificarlo abriendo `http://localhost:8080/api/v1/marcas`; el frontend por sí solo no guarda datos.
 
 ## Puesta en marcha
 
@@ -48,8 +48,8 @@ La API debe proporcionar estos endpoints bajo la base URL configurada:
 | Método | Ruta | Uso |
 | --- | --- | --- |
 | `GET` | `/marcas` | Obtener la lista de marcas. |
-| `POST` | `/marcas` | Crear una marca enviando JSON, por ejemplo `{ "nombre": "Toyota", "estado": true }`. |
-| `PUT` | `/marcas/{idmarca}` | Actualizar una marca enviando `nombre` y `estado`. |
+| `POST` | `/marcas` | Crear una marca enviando nombre, estado, precio, cantidad y total. |
+| `PUT` | `/marcas/{idmarca}` | Actualizar nombre, estado, precio, cantidad y total. |
 | `DELETE` | `/marcas/{idmarca}` | Eliminar una marca por su ID. |
 
 ## Comandos

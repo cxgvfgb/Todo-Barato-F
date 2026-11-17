@@ -3,6 +3,9 @@ import DataTable from "react-data-table-component";
 const columns = [
     { name : "ID", selector: (row) => row.idmarca, sortable: true},
     { name : "Nombre", selector: (row) => row.nombre, sortable: true},
+    { name : "Precio", selector: (row) => row.precio ?? "-", sortable: true},
+    { name : "Cantidad", selector: (row) => row.cantidad ?? "-", sortable: true},
+    { name : "Total", selector: (row) => row.total ?? "-", sortable: true},
     {
         name: "Estado",
         selector: (row) => row.estado,

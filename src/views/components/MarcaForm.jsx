@@ -2,6 +2,9 @@ import { useState } from "react";
 
 function MarcaForm({onCrear, onActualizar, marcaEditando, onCancelar, loading}){
     const [nombre, setNombre] = useState(marcaEditando?.nombre ?? "");
+    const [precio, setPrecio] = useState(marcaEditando?.precio ?? "");
+    const [cantidad, setCantidad] = useState(marcaEditando?.cantidad ?? "");
+    const [total, setTotal] = useState(marcaEditando?.total ?? "");
     const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
@@ -9,11 +12,14 @@ function MarcaForm({onCrear, onActualizar, marcaEditando, onCancelar, loading}){
         setError("");
         try {
             if (marcaEditando) {
-                await onActualizar(marcaEditando.idmarca, { nombre, estado: marcaEditando.estado });
+                await onActualizar(marcaEditando.idmarca, { nombre, estado: marcaEditando.estado, precio, cantidad, total });
                 onCancelar();
             } else {
-                await onCrear({ nombre });
+                await onCrear({ nombre, precio, cantidad, total });
                 setNombre("");
+                setPrecio("");
+                setCantidad("");
+                setTotal("");
             }
         }catch(err){
             setError(err.message)
@@ -32,7 +38,13 @@ function MarcaForm({onCrear, onActualizar, marcaEditando, onCancelar, loading}){
                         <button className="modal-close" type="button" onClick={onCancelar} aria-label="Cerrar" disabled={loading}>×</button>
                     </div>
                     <label htmlFor="nombre">Nombre</label>
-                    <input id="nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} maxLength={200} autoFocus />
+                    <input id="nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} maxLength={200} autoFocus required />
+                    <label htmlFor="precio">Precio</label>
+                    <input id="precio" type="number" min="0.01" step="0.01" value={precio} onChange={(e) => setPrecio(e.target.value)} required />
+                    <label htmlFor="cantidad">Cantidad</label>
+                    <input id="cantidad" type="number" min="1" step="1" value={cantidad} onChange={(e) => setCantidad(e.target.value)} required />
+                    <label htmlFor="total">Total</label>
+                    <input id="total" type="number" min="0" step="0.01" value={total} onChange={(e) => setTotal(e.target.value)} required />
                     {error && <p className="form-error">{error}</p>}
                     <div className="modal-actions">
                         <button className="cancel-button" type="button" onClick={onCancelar} disabled={loading}>Cancelar</button>
@@ -47,7 +59,13 @@ function MarcaForm({onCrear, onActualizar, marcaEditando, onCancelar, loading}){
         <form className="marca-form" onSubmit={handleSubmit}>
             <h2>Nueva Marca</h2>
             <label htmlFor="nombre">Nombre</label>
-            <input id="nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Toyota" maxLength={200} />
+            <input id="nombre" type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Toyota" maxLength={200} required />
+            <label htmlFor="precio">Precio</label>
+            <input id="precio" type="number" min="0.01" step="0.01" value={precio} onChange={(e) => setPrecio(e.target.value)} required />
+            <label htmlFor="cantidad">Cantidad</label>
+            <input id="cantidad" type="number" min="1" step="1" value={cantidad} onChange={(e) => setCantidad(e.target.value)} required />
+            <label htmlFor="total">Total</label>
+            <input id="total" type="number" min="0" step="0.01" value={total} onChange={(e) => setTotal(e.target.value)} required />
             {error && <p className="form-error">{error}</p>}
             <button type="submit" disabled={loading}>{loading ? "Guardando..." : "Crear marca"}</button>
         </form>

@@ -6,9 +6,9 @@ const MarcaController = {
         const { data } = await MarcaService.listar();
         return data.map((item) => Marca.fromResponse(item))
     },
-    async crearMarca({ nombre }) {
-        const marca = new Marca({ nombre });
-        if (!marca.isValid()) {
+    async crearMarca(datos) {
+        const marca = new Marca(datos);
+        if (!marca.isValid() || !marca.isValidInventory()) {
             throw new Error("El nombre de la marca es obligatorio y deber tener máximo 200 caracteres");
         }
         try{
@@ -19,9 +19,9 @@ const MarcaController = {
             throw new Error(mensajeBackend || "No se pudo crear la marca");
         }
     },
-    async actualizarMarca(id, { nombre, estado = true }) {
-        const marca = new Marca({ idmarca: id, nombre, estado });
-        if (!marca.isValid()) {
+    async actualizarMarca(id, datos) {
+        const marca = new Marca({ idmarca: id, ...datos });
+        if (!marca.isValid() || !marca.isValidInventory()) {
             throw new Error("El nombre de la marca es obligatorio y debe tener máximo 200 caracteres");
         }
         try {
